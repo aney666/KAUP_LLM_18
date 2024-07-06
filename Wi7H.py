@@ -24,7 +24,6 @@ import warnings
 warnings.filterwarnings("ignore")
 
 Char_list = ["""
-    
     당신의 MBTI는 무엇입니까?
     ISTP
     직무와 관련해, 어떤 역할을 맡고 싶나요?
@@ -71,7 +70,7 @@ Char_list = ["""
     직무와 관련해, 당신의 관심사는 무엇인가요?
     컴퓨터 비전
     당신의 업무철학은 어떻게 되나요?
-    뺨은 안때리는 교수가 될거야!
+    일찍 출근하고 늦게 퇴근하는 것 입니다.
     """,
     """
     당신의 MBTI는 무엇입니까?
@@ -130,7 +129,7 @@ def chat(vector_store):
     retriever = vector_store.as_retriever()
     result_docs = retriever.invoke(iinput)
 
-    for i in range(4):    
+    for i in range(4):
         template = """너는 이제 이 데이터를 가진 사람을 연기해야 해. 만약, 이름이나 나이를 물어보면 무작위로 이름을 만들어서 대답해 줘. :"""
         temp = """
                 {context} 
@@ -138,33 +137,33 @@ def chat(vector_store):
                 Output: please, response in Korean
                 """
 
-    print("\n")
-    print("="*50)
-    print("말씀하신 특성을 가지고 있는 사람과 연결이 완료되었습니다.\n")
-    print("자유롭게 대화하시고, 대화를 종료하고 싶으시다면 \'exit\'을 입력해 주세요.\n")
-    print("만약, 다른 사람과의 매칭을 원하신다면 \'again\'을 입력해 주세요.\n")
-    print("="*50)
-    print("\n")
+        print("\n")
+        print("="*50)
+        print("말씀하신 특성을 가지고 있는 사람과 연결이 완료되었습니다.\n")
+        print("자유롭게 대화하시고, 대화를 종료하고 싶으시다면 \'exit\'을 입력해 주세요.\n")
+        print("만약, 다른 사람과의 매칭을 원하신다면 \'again\'을 입력해 주세요.\n")
+        print("="*50)
+        print("\n")
 
-    print("안녕하세요?\n")
+        print("안녕하세요?\n")
 
-    while(1):
-      prompt = PromptTemplate.from_template(template + temp)
-      chain = prompt | llm | StrOutputParser()
+        while(1):
+            prompt = PromptTemplate.from_template(template + temp)
+            chain = prompt | llm | StrOutputParser()
 
-      uinput = input()
-      if "exit" in uinput:
-          return 0
-      elif "again" in uinput:
-          return 1
-          
+            uinput = input()
 
-      response = chain.invoke({"question": uinput, "context": [result_docs[i]]})
-      print(response)
-      print("\n")
+            if "exit" in uinput:
+                return 0
+            elif "next" in uinput:
+                break
 
-      template += "Quesetion: " + uinput
-      template += "Answer: " + response
+            response = chain.invoke({"question": uinput, "context": [result_docs[i]]})
+            print(response)
+            print("\n")
+
+            template += "Quesetion: " + uinput
+            template += "Answer: " + response
 
 if __name__=="__main__":
     client, con = initialize()
@@ -183,5 +182,4 @@ if __name__=="__main__":
                         table_name="text_embeddings2", 
                         distance_strategy=DistanceStrategy.DOT_PRODUCT)
     
-    if (chat(vector_store)):
-        chat(vector_store)
+    chat(vector_store)
