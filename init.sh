@@ -1,0 +1,5 @@
+export UPSTAGE_API_KEY='up_BV3T2mTu2xdqqyreYTmE523Y9mrQC'
+export TAVILY_API_KEY='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'
+export DB_USER='kaist181'
+export DB_PASSWORD='UPstage#854#551'
+export DSN='129.154.217.137:1521/pdb1.sub07030154100.kaist.oraclevcn.com'
