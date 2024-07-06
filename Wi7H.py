@@ -131,7 +131,7 @@ def chat(vector_store):
     result_docs = retriever.invoke(iinput)
 
     for i in range(4):    
-        template = """너는 이제 아래의 데이터를 가진 사람이야. 만약에 가지고 있지 않는 너의 데이터에 대해서 물어보면, 너가 무작위로 관련된 정보들을 생성해서 대답해 줘. 예를 들어서, 이름을 물어보면 너의 이름을 무작위로 생성해서 대답해야 해.:"""
+        template = """너는 이제 이 데이터를 가진 사람을 연기해야 해. 만약, 이름이나 나이를 물어보면 무작위로 이름을 만들어서 대답해 줘. :"""
         temp = """
                 {context} 
                 Question: {question} 
@@ -160,18 +160,11 @@ def chat(vector_store):
           
 
       response = chain.invoke({"question": uinput, "context": [result_docs[i]]})
-      #print("Question: ", uinput)
-      #print("-"*100)
       print(response)
       print("\n")
 
       template += "Quesetion: " + uinput
-      template += "Answer: " + response 
-
-      #next = input("대화를 종료하시겠습니까? (y/n)\n")
-      #if next == "y" :
-        #break
-
+      template += "Answer: " + response
 
 if __name__=="__main__":
     client, con = initialize()
